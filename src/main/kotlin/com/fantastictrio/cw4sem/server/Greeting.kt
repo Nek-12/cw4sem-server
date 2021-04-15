@@ -1,4 +1,4 @@
-package com.fantasticduo.cw4sem.server
+package com.fantastictrio.cw4sem.server
 
 data class Greeting(
     val id: Long,

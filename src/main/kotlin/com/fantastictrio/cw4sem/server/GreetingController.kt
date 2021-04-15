@@ -1,4 +1,4 @@
-package com.fantasticduo.cw4sem.server
+package com.fantastictrio.cw4sem.server
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
