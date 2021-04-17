@@ -18,6 +18,12 @@ configurations {
     }
 }
 
+val jar by tasks.getting(Jar::class) {
+    manifest {
+        attributes["Main-Class"] = "com.fantastictrio.cw4sem.server.Cw4semServerApplication"
+    }
+}
+
 repositories {
     mavenCentral()
     maven { url = uri("https://repo.spring.io/milestone") }
