@@ -8,12 +8,6 @@ plugins {
     kotlin("plugin.jpa") version "1.4.31"
 }
 
-val jar by tasks.getting(Jar::class) {
-    manifest {
-        attributes["Main-Class"] = "com.fantastictrio.cw4sem.server.Cw4semServerApplication"
-    }
-}
-
 group = "com.fantastictrio"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
