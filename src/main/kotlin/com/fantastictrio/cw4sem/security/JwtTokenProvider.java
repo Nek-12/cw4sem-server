@@ -1,6 +1,8 @@
 package com.fantastictrio.cw4sem.security;
 
 import com.fantastictrio.cw4sem.exception.JwtAuthenticationException;
+import com.fantastictrio.cw4sem.model.User;
+import com.fantastictrio.cw4sem.service.AuthService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -22,14 +24,17 @@ import java.util.Base64;
 public class JwtTokenProvider {
 
     private final UserDetailsService userDetailsService;
+    private final AuthService authService;
 
     @Value("${jwt.secret}")
     private String secretKey;
     @Value("${jwt.header}")
     private String authorizationHeader;
 
-    public JwtTokenProvider(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
+    public JwtTokenProvider(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService,
+                            AuthService authService) {
         this.userDetailsService = userDetailsService;
+        this.authService = authService;
     }
 
     @PostConstruct
@@ -37,9 +42,11 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String username, String role) {
+    public String createToken(String username) {
+        User user = authService.getUserByName(username);
+
         Claims claims = Jwts.claims().setSubject(username);
-        claims.put("role", role);
+        claims.put("role", user.getRole().toString());
 
         return Jwts.builder()
                 .setClaims(claims)

@@ -46,10 +46,14 @@ public class AuthService {
 
     public AuthenticationResponse login(AuthRequest authRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-        String token = jwtTokenProvider.createToken(authRequest.getUsername(), Role.USER.toString());
+        String token = jwtTokenProvider.createToken(authRequest.getUsername());
         return AuthenticationResponse.builder()
             .authenticationToken(token)
             .username(authRequest.getUsername())
             .build();
+    }
+
+    public User getUserByName(String username) {
+        return userRepository.findByUsername(username).get();
     }
 }
