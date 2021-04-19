@@ -1,4 +1,4 @@
-package com.fantastictrio.cw4sem.server
+package com.fantastictrio.cw4sem
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

@@ -1,4 +1,4 @@
-package com.fantastictrio.cw4sem.server
+package com.fantastictrio.cw4sem.model
 
 data class Greeting(
     val id: Long,
