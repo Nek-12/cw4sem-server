@@ -8,7 +8,7 @@ import com.fantastictrio.cw4sem.model.Status;
 import com.fantastictrio.cw4sem.model.User;
 import com.fantastictrio.cw4sem.repository.UserRepository;
 import com.fantastictrio.cw4sem.security.JwtTokenProvider;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 public class AuthService {
     private final PasswordEncoder passwordEncoder;
