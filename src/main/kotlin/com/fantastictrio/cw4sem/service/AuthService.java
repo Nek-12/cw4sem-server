@@ -26,7 +26,7 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
 
-    public void signup(AuthRequest authRequest) throws DuplicateUserException {
+    public AuthenticationResponse signup(AuthRequest authRequest) throws DuplicateUserException {
         if (isUserRegistered(authRequest.getUsername())){
             throw new DuplicateUserException("User with this username already exists");
         }
@@ -38,6 +38,8 @@ public class AuthService {
                 .role(Role.USER)
                 .build();
         userRepository.save(user);
+
+        return generateAuthenticationToken(authRequest.getUsername());
     }
 
     public boolean isUserRegistered(String username) {
@@ -46,11 +48,15 @@ public class AuthService {
 
     public AuthenticationResponse login(AuthRequest authRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-        String token = jwtTokenProvider.createToken(authRequest.getUsername());
+        return generateAuthenticationToken(authRequest.getUsername());
+    }
+
+    public AuthenticationResponse generateAuthenticationToken(String username) {
+        String token = jwtTokenProvider.createToken(username);
         return AuthenticationResponse.builder()
-            .authenticationToken(token)
-            .username(authRequest.getUsername())
-            .build();
+                .authenticationToken(token)
+                .username(username)
+                .build();
     }
 
     public User getUserByName(String username) {
