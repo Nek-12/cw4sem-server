@@ -44,11 +44,7 @@ public class JwtTokenProvider {
     }
 
     public String createToken(String username) {
-        User user = authService.getUserByName(username);
-
         Claims claims = Jwts.claims().setSubject(username);
-        claims.put("role", user.getRole().toString());
-
         return Jwts.builder()
                 .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS256, secretKey)

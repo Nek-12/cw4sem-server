@@ -1,54 +1,64 @@
 package com.fantastictrio.cw4sem.service;
 
-import com.fantastictrio.cw4sem.dto.AuthRequest;
 import com.fantastictrio.cw4sem.dto.AuthenticationResponse;
+import com.fantastictrio.cw4sem.dto.LoginRequest;
+import com.fantastictrio.cw4sem.dto.RegisterRequest;
 import com.fantastictrio.cw4sem.exception.DuplicateUserException;
 import com.fantastictrio.cw4sem.model.Role;
-import com.fantastictrio.cw4sem.model.Status;
 import com.fantastictrio.cw4sem.model.User;
+import com.fantastictrio.cw4sem.model.UserRole;
 import com.fantastictrio.cw4sem.repository.UserRepository;
+import com.fantastictrio.cw4sem.repository.UserRoleRepository;
 import com.fantastictrio.cw4sem.security.JwtTokenProvider;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-
 @Service
-@RequiredArgsConstructor
 @Transactional
 public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
+    private final UserRole userRole;
 
-    public AuthenticationResponse signup(AuthRequest authRequest) throws DuplicateUserException {
-        if (isUserRegistered(authRequest.getUsername())){
+    public AuthService(PasswordEncoder passwordEncoder, UserRepository userRepository,
+                       JwtTokenProvider jwtTokenProvider, AuthenticationManager authenticationManager,
+                       UserRoleRepository userRoleRepository) {
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.authenticationManager = authenticationManager;
+        this.userRole = userRoleRepository.findByRole(Role.USER).get();
+    }
+
+    public AuthenticationResponse signup(RegisterRequest request) throws DuplicateUserException {
+        if (isUserRegistered(request.getUsername())){
             throw new DuplicateUserException("User with this username already exists");
         }
         User user = User.builder()
-                .password(passwordEncoder.encode(authRequest.getPassword()))
-                .username(authRequest.getUsername())
-                .createdDate(Instant.now())
-                .status(Status.ACTIVE)
-                .role(Role.USER)
+                .password(passwordEncoder.encode(request.getPassword()))
+                .username(request.getUsername())
+                .userRole(userRole)
+                .email(request.getEmail())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
                 .build();
         userRepository.save(user);
 
-        return generateAuthenticationToken(authRequest.getUsername());
+        return generateAuthenticationToken(request.getUsername());
     }
 
     public boolean isUserRegistered(String username) {
         return userRepository.findByUsername(username).isPresent();
     }
 
-    public AuthenticationResponse login(AuthRequest authRequest) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-        return generateAuthenticationToken(authRequest.getUsername());
+    public AuthenticationResponse login(LoginRequest loginRequest) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        return generateAuthenticationToken(loginRequest.getUsername());
     }
 
     public AuthenticationResponse generateAuthenticationToken(String username) {
@@ -57,9 +67,5 @@ public class AuthService {
                 .authenticationToken(token)
                 .username(username)
                 .build();
-    }
-
-    public User getUserByName(String username) {
-        return userRepository.findByUsername(username).get();
     }
 }

@@ -1,6 +1,5 @@
 package com.fantastictrio.cw4sem.security;
 
-import com.fantastictrio.cw4sem.model.Status;
 import com.fantastictrio.cw4sem.model.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -63,11 +62,11 @@ public class SecurityUser implements UserDetails {
     public static UserDetails fromUser(User user) {
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(), user.getPassword(),
-                user.getStatus().equals(Status.ACTIVE),
-                user.getStatus().equals(Status.ACTIVE),
-                user.getStatus().equals(Status.ACTIVE),
-                user.getStatus().equals(Status.ACTIVE),
-                user.getRole().getAuthorities()
+                true,
+                true,
+                true,
+                true,
+                user.getUserRole().getRole().getAuthorities()
         );
     }
 }
