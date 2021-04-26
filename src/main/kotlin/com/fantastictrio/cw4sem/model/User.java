@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.web.ProjectedPayload;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -17,7 +18,7 @@ import java.time.Instant;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(unique = true, nullable = false)
     private String username;
@@ -38,10 +39,14 @@ public class User {
     @JoinColumn(name = "organization_id")
     private Organization organization;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false)
-    private UserRole userRole;
+    @Enumerated
+    private Role role;
 
     @Column(name = "created_date")
     private Instant createdDate;
+
+    public interface UserProjection {
+        Integer getId();
+        String getUsername();
+    }
 }

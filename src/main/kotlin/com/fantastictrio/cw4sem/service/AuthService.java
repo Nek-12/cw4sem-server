@@ -6,10 +6,9 @@ import com.fantastictrio.cw4sem.dto.RegisterRequest;
 import com.fantastictrio.cw4sem.exception.DuplicateUserException;
 import com.fantastictrio.cw4sem.model.Role;
 import com.fantastictrio.cw4sem.model.User;
-import com.fantastictrio.cw4sem.model.UserRole;
 import com.fantastictrio.cw4sem.repository.UserRepository;
-import com.fantastictrio.cw4sem.repository.UserRoleRepository;
 import com.fantastictrio.cw4sem.security.JwtTokenProvider;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,22 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
-    private final UserRole userRole;
-
-    public AuthService(PasswordEncoder passwordEncoder, UserRepository userRepository,
-                       JwtTokenProvider jwtTokenProvider, AuthenticationManager authenticationManager,
-                       UserRoleRepository userRoleRepository) {
-        this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.authenticationManager = authenticationManager;
-        this.userRole = userRoleRepository.findByRole(Role.USER).get();
-    }
 
     public AuthenticationResponse signup(RegisterRequest request) throws DuplicateUserException {
         if (isUserRegistered(request.getUsername())){
@@ -42,7 +31,7 @@ public class AuthService {
         User user = User.builder()
                 .password(passwordEncoder.encode(request.getPassword()))
                 .username(request.getUsername())
-                .userRole(userRole)
+                .role(Role.USER)
                 .email(request.getEmail())
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
