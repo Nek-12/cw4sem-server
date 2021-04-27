@@ -20,6 +20,11 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @GetMapping("/self")
+    public User getSelf() {
+        return userService.getSelf();
+    }
+
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('USERS:MANAGE')")
     public User getUserById(@PathVariable("id") Integer id) {

@@ -4,6 +4,7 @@ import com.fantastictrio.cw4sem.exception.NoSuchUserException;
 import com.fantastictrio.cw4sem.model.User;
 import com.fantastictrio.cw4sem.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,5 +29,10 @@ public class UserService {
 
     public List<User.UserProjection> findAllProjections() {
         return userRepository.findAllProjectionsBy();
+    }
+
+    public User getSelf() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByUsername(username).orElseThrow(() -> new NoSuchUserException("User not found"));
     }
 }
