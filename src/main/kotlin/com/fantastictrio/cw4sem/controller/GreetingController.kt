@@ -15,7 +15,6 @@ class GreetingController {
     }
 
     @PostMapping("/counter")
-    @PreAuthorize("hasAuthority('READ')")
     fun changeCounter(@RequestParam(value = "counter") c: Long) {
         counter = c
     }

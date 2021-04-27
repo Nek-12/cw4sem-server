@@ -1,8 +1,8 @@
 package com.fantastictrio.cw4sem.model;
 
 public enum Permission {
-    READ("READ"),
-    WRITE("WRITE");
+    MANAGE_USERS("USERS:MANAGE"),
+    ADD_ORGANIZATION("ORGANIZATION:ADD");
 
     private final String permission;
 
