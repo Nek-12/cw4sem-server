@@ -47,8 +47,9 @@ public class AuthService {
 
     public AuthenticationResponse login(LoginRequest loginRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        Role role = userRepository.findByUsername(loginRequest.getUsername()).get().getRole();
-        return generateAuthenticationToken(loginRequest.getUsername(), role);
+        User user = userRepository.findByUsername(loginRequest.getUsername()).get();
+        Role role = user.getRole();
+        return generateAuthenticationToken(user.getUsername(), role);
     }
 
     public AuthenticationResponse generateAuthenticationToken(String username, Role role) {
