@@ -1,7 +1,6 @@
 package com.fantastictrio.cw4sem.controller
 
 import com.fantastictrio.cw4sem.model.Greeting
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam

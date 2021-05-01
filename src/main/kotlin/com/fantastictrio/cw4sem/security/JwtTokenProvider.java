@@ -1,7 +1,6 @@
 package com.fantastictrio.cw4sem.security;
 
 import com.fantastictrio.cw4sem.exception.JwtAuthenticationException;
-import com.fantastictrio.cw4sem.model.User;
 import com.fantastictrio.cw4sem.service.AuthService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
