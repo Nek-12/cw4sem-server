@@ -1,7 +1,7 @@
 package com.fantastictrio.cw4sem.service;
 
 import com.fantastictrio.cw4sem.dto.UserPayload;
-import com.fantastictrio.cw4sem.exception.NoSuchUserException;
+import com.fantastictrio.cw4sem.exception.NotFoundException;
 import com.fantastictrio.cw4sem.model.User;
 import com.fantastictrio.cw4sem.repository.UserRepository;
 import lombok.AllArgsConstructor;
