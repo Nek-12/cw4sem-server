@@ -13,5 +13,4 @@ public class UserPayload {
     private String email;
     private String firstName;
     private String lastName;
-    private int id;
 }

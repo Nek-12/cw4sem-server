@@ -7,20 +7,14 @@ import com.fantastictrio.cw4sem.service.OrganizationService
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
-
-// C
-//  OK R
-// U
-// OK D
-
 @RestController
 @RequestMapping("/decisions")
 class DecisionController(
     private val decisionService: DecisionService,
     private val organizationService: OrganizationService
 ) {
-    @get:PreAuthorize("hasAuthority('DECISION:MANAGE')")
     @get:GetMapping
+    @get:PreAuthorize("hasAuthority('DECISION:MANAGE')")
     val decisions: List<Decision>
         get() = decisionService.decisions
 

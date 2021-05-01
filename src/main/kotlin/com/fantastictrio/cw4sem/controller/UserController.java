@@ -9,11 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-// ok C
-// ok R
-// ok U
-// ok D
-
 @RestController
 @AllArgsConstructor
 @RequestMapping("/users")
@@ -44,6 +39,12 @@ public class UserController {
         return userService.updateById(userPayload, id);
     }
 
+    @PostMapping("/{id}/promote")
+    @PreAuthorize("hasAuthority('USERS:MANAGE')")
+    public User promoteUser(@PathVariable("id") Integer id) {
+        return userService.promoteUser(id);
+    }
+
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('USERS:MANAGE')")
     public User getById(@PathVariable("id") Integer id) {
@@ -52,8 +53,8 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('USERS:MANAGE')")
-    public boolean deleteById(@PathVariable("id") Integer id) {
-        return userService.deleteById(id);
+    public void deleteById(@PathVariable("id") Integer id) {
+        userService.deleteById(id);
     }
 
     @GetMapping("/projections")

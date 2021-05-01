@@ -8,11 +8,6 @@ import com.fantastictrio.cw4sem.service.UserService
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
-// C
-// OK R
-// OK U
-// OK D
-
 @RestController
 @RequestMapping("/organizations")
 class OrganizationController(
@@ -41,7 +36,7 @@ class OrganizationController(
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ORGANIZATION:INTERACT')")
-    fun deleteById(@PathVariable("id") id: Int): Boolean {
-        return organizationService.deleteById(id)
+    fun deleteById(@PathVariable("id") id: Int) {
+        organizationService.deleteById(id)
     }
 }

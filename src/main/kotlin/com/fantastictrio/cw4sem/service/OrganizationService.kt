@@ -16,9 +16,8 @@ class OrganizationService(
         return repo.findById(id).orElseThrow { NotFoundException("Organization not found") }
     }
 
-    fun deleteById(id: Int): Boolean {
+    fun deleteById(id: Int) {
         repo.deleteById(id)
-        return true
     }
 
     fun update(organization: Organization): Organization? {

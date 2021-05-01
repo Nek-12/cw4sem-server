@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 
 public enum Role {
     //TODO: Specify more safe roles
-    USER(Set.of(Permission.MANAGE_ORGANIZATION,Permission.MANAGE_DECISION)),
-    ADMIN(Set.of(Permission.MANAGE_USERS, Permission.MANAGE_DECISION,Permission.MANAGE_ORGANIZATION));
+    USER(Set.of(Permission.MANAGE_ORGANIZATION, Permission.MANAGE_DECISION)),
+    ADMIN(Set.of(Permission.MANAGE_USERS, Permission.MANAGE_DECISION, Permission.MANAGE_ORGANIZATION));
 
     private final Set<Permission> permissions;
 

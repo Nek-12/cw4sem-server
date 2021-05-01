@@ -2,6 +2,7 @@ package com.fantastictrio.cw4sem.service;
 
 import com.fantastictrio.cw4sem.dto.UserPayload;
 import com.fantastictrio.cw4sem.exception.NotFoundException;
+import com.fantastictrio.cw4sem.model.Role;
 import com.fantastictrio.cw4sem.model.User;
 import com.fantastictrio.cw4sem.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -25,9 +26,8 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
     }
 
-    public boolean deleteById(Integer id) {
+    public void deleteById(Integer id) {
         userRepository.deleteById(id);
-        return true;
     }
 
     public List<User> getByOrganizationId(int organization_id) {
@@ -61,5 +61,11 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(userPayload.getPassword()));
         user.setFirstName(userPayload.getFirstName());
         user.setLastName(userPayload.getLastName());
+    }
+
+    public User promoteUser(Integer id) {
+        User user = getById(id);
+        user.setRole(Role.ADMIN);
+        return userRepository.save(user);
     }
 }
