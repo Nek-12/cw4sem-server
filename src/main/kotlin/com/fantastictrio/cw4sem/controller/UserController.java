@@ -1,5 +1,6 @@
 package com.fantastictrio.cw4sem.controller;
 
+import com.fantastictrio.cw4sem.dto.UserPayload;
 import com.fantastictrio.cw4sem.model.User;
 import com.fantastictrio.cw4sem.service.UserService;
 import lombok.AllArgsConstructor;
@@ -21,8 +22,21 @@ public class UserController {
     }
 
     @GetMapping("/self")
+    @PreAuthorize("isAuthenticated()")
     public User getSelf() {
         return userService.getSelf();
+    }
+
+    @PostMapping("/update/self")
+    @PreAuthorize("isAuthenticated()")
+    public User updateSelf(UserPayload userPayload) {
+        return userService.updateSelf(userPayload);
+    }
+
+    @PostMapping("/update/{id}")
+    @PreAuthorize("hasAuthority('USERS:MANAGE')")
+    public User updateById(UserPayload userPayload, @PathVariable("id") Integer id) {
+        return userService.updateById(userPayload, id);
     }
 
     @GetMapping("/{id}")
