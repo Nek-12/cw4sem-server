@@ -1,6 +1,6 @@
 package com.fantastictrio.cw4sem.service;
 
-import com.fantastictrio.cw4sem.exception.NoSuchUserException;
+import com.fantastictrio.cw4sem.exception.NotFoundException;
 import com.fantastictrio.cw4sem.model.User;
 import com.fantastictrio.cw4sem.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ public class UserService {
     }
 
     public User getUserById(Integer id) {
-        return userRepository.findById(id).orElseThrow(() -> new NoSuchUserException("User not found"));
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     public boolean deleteUserById(Integer id) {
@@ -33,6 +33,6 @@ public class UserService {
 
     public User getSelf() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByUsername(username).orElseThrow(() -> new NoSuchUserException("User not found"));
+        return userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("User not found"));
     }
 }

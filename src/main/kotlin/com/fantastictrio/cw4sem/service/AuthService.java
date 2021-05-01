@@ -3,7 +3,7 @@ package com.fantastictrio.cw4sem.service;
 import com.fantastictrio.cw4sem.dto.AuthenticationResponse;
 import com.fantastictrio.cw4sem.dto.LoginRequest;
 import com.fantastictrio.cw4sem.dto.RegisterRequest;
-import com.fantastictrio.cw4sem.exception.DuplicateUserException;
+import com.fantastictrio.cw4sem.exception.DuplicateException;
 import com.fantastictrio.cw4sem.model.Role;
 import com.fantastictrio.cw4sem.model.User;
 import com.fantastictrio.cw4sem.repository.UserRepository;
@@ -24,9 +24,9 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse signup(RegisterRequest request) throws DuplicateUserException {
+    public AuthenticationResponse signup(RegisterRequest request) throws DuplicateException {
         if (isUserRegistered(request.getUsername())){
-            throw new DuplicateUserException("User with this username already exists");
+            throw new DuplicateException("User with this username already exists");
         }
         User user = User.builder()
                 .password(passwordEncoder.encode(request.getPassword()))
