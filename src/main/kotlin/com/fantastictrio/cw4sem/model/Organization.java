@@ -3,6 +3,7 @@ package com.fantastictrio.cw4sem.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity(name = "organization")
@@ -16,4 +17,7 @@ public class Organization {
 
     @Column(nullable = false)
     private String type;
+
+    @OneToMany(mappedBy = "organization",cascade=CascadeType.PERSIST)
+    private List<User> users;
 }
