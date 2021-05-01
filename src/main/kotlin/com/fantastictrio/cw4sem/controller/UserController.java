@@ -29,13 +29,13 @@ public class UserController {
 
     @PostMapping("/update/self")
     @PreAuthorize("isAuthenticated()")
-    public User updateSelf(UserPayload userPayload) {
+    public User updateSelf(@RequestBody UserPayload userPayload) {
         return userService.updateSelf(userPayload);
     }
 
     @PostMapping("/update/{id}")
     @PreAuthorize("hasAuthority('USERS:MANAGE')")
-    public User updateById(UserPayload userPayload, @PathVariable("id") Integer id) {
+    public User updateById(@RequestBody UserPayload userPayload, @PathVariable("id") Integer id) {
         return userService.updateById(userPayload, id);
     }
 

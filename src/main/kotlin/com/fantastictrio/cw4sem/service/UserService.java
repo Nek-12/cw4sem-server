@@ -6,6 +6,7 @@ import com.fantastictrio.cw4sem.model.User;
 import com.fantastictrio.cw4sem.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -52,7 +54,7 @@ public class UserService {
     private void updateUser(User user, UserPayload userPayload) {
         user.setEmail(userPayload.getEmail());
         user.setUsername(userPayload.getUsername());
-        user.setPassword(userPayload.getPassword());
+        user.setPassword(passwordEncoder.encode(userPayload.getPassword()));
         user.setFirstName(userPayload.getFirstName());
         user.setLastName(userPayload.getLastName());
     }
