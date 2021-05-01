@@ -15,17 +15,21 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
 
-    public List<User> getAllUsers() {
+    public List<User> getAll() {
         return userRepository.findAll();
     }
 
-    public User getUserById(Integer id) {
+    public User getById(Integer id) {
         return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
     }
 
-    public boolean deleteUserById(Integer id) {
+    public boolean deleteById(Integer id) {
         userRepository.deleteById(id);
         return true;
+    }
+
+    public List<User> getByOrganizationId(int organization_id) {
+        return userRepository.getByOrganizationId(organization_id);
     }
 
     public List<User.UserProjection> findAllProjections() {
@@ -39,17 +43,17 @@ public class UserService {
 
     public User updateSelf(UserPayload userPayload) {
         User user = getSelf();
-        updateUser(user, userPayload);
+        update(user, userPayload);
         return userRepository.save(user);
     }
 
     public User updateById(UserPayload userPayload, Integer id) {
-        User user = getUserById(id);
-        updateUser(user, userPayload);
+        User user = getById(id);
+        update(user, userPayload);
         return userRepository.save(user);
     }
 
-    private void updateUser(User user, UserPayload userPayload) {
+    private void update(User user, UserPayload userPayload) {
         user.setEmail(userPayload.getEmail());
         user.setUsername(userPayload.getUsername());
         user.setPassword(userPayload.getPassword());

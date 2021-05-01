@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// ok C
+// ok R
+// ok U
+// ok D
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/users")
@@ -17,8 +22,8 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('USERS:MANAGE')")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public List<User> getAll() {
+        return userService.getAll();
     }
 
     @GetMapping("/self")
@@ -29,29 +34,29 @@ public class UserController {
 
     @PostMapping("/update/self")
     @PreAuthorize("isAuthenticated()")
-    public User updateSelf(UserPayload userPayload) {
+    public User updateSelf(@RequestBody UserPayload userPayload) {
         return userService.updateSelf(userPayload);
     }
 
     @PostMapping("/update/{id}")
     @PreAuthorize("hasAuthority('USERS:MANAGE')")
-    public User updateById(UserPayload userPayload, @PathVariable("id") Integer id) {
+    public User updateById(@RequestBody UserPayload userPayload, @PathVariable("id") Integer id) {
         return userService.updateById(userPayload, id);
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('USERS:MANAGE')")
-    public User getUserById(@PathVariable("id") Integer id) {
-        return userService.getUserById(id);
+    public User getById(@PathVariable("id") Integer id) {
+        return userService.getById(id);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('USERS:MANAGE')")
-    public boolean deleteUserById(@PathVariable("id") Integer id) {
-        return userService.deleteUserById(id);
+    public boolean deleteById(@PathVariable("id") Integer id) {
+        return userService.deleteById(id);
     }
 
-    @GetMapping("/projection")
+    @GetMapping("/projections")
     public List<User.UserProjection> findAllProjections() {
         return userService.findAllProjections();
     }

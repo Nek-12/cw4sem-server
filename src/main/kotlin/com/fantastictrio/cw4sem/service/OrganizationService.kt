@@ -7,19 +7,21 @@ import org.springframework.stereotype.Service
 
 @Service
 class OrganizationService(
-    private val organizationRepository: OrganizationRepository
+    private val repo: OrganizationRepository
 ) {
     val organizations: List<Organization>
-        get() = organizationRepository.findAll()
+        get() = repo.findAll()
 
-    fun getOrganizationById(id: Int): Organization {
-        return organizationRepository.findById(id).orElseThrow {
-            NotFoundException("Organization not found")
-        }
+    fun getById(id: Int): Organization {
+        return repo.findById(id).orElseThrow { NotFoundException("Organization not found") }
     }
 
-    fun deleteOrganizationById(id: Int): Boolean {
-        organizationRepository.deleteById(id)
+    fun deleteById(id: Int): Boolean {
+        repo.deleteById(id)
         return true
+    }
+
+    fun update(organization: Organization): Organization? {
+        return repo.save(organization)
     }
 }

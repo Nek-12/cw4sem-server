@@ -2,7 +2,7 @@ package com.fantastictrio.cw4sem.model;
 
 public enum Permission {
     MANAGE_USERS("USERS:MANAGE"),
-    INTERACT_ORGANIZATION("ORGANIZATION:INTERACT"),
+    MANAGE_DECISION("DECISION:MANAGE"),
     MANAGE_ORGANIZATION("ORGANIZATION:MANAGE");
 
     private final String permission;
