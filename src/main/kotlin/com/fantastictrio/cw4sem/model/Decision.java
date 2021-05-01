@@ -29,4 +29,15 @@ public class Decision {
 
     @Column(name = "created_date")
     private Instant createdDate;
+
+    @Override
+    public String toString() {
+        return "Decision{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", strategyList='" + strategyList + '\'' +
+                ", natureStatesCounter=" + natureStatesCounter +
+                ", createdDate=" + createdDate +
+                '}';
+    }
 }

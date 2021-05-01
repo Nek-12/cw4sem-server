@@ -20,4 +20,14 @@ public class Organization {
 
     @OneToMany(mappedBy = "organization",cascade=CascadeType.PERSIST)
     private List<User> users;
+
+    @Override
+    public String toString() {
+        return "Organization{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", users=" + users +
+                '}';
+    }
 }

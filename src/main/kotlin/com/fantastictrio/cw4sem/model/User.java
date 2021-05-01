@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.web.ProjectedPayload;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -48,5 +47,14 @@ public class User {
     public interface UserProjection {
         Integer getId();
         String getUsername();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", createdDate=" + createdDate +
+                '}';
     }
 }
