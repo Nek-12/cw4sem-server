@@ -8,11 +8,8 @@ import javax.persistence.*
 @JsonIgnoreProperties(value = ["users"])
 @Entity(name = "organization")
 data class Organization(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Int = 0,
-    @Nationalized
 
+    @Nationalized
     @Column(nullable = false, unique = true)
     val name: String,
 
@@ -22,10 +19,19 @@ data class Organization(
 
     @OneToMany(mappedBy = "organization", cascade = [CascadeType.PERSIST])
     val users: List<User> = emptyList(),
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Int = 0,
 ) {
-    constructor(payload: OrganizationPayload, id: Int, users: List<User> = emptyList()) : this(
-        id,
+    constructor(payload: OrganizationPayload, id: Int = 0, users: List<User> = emptyList()) : this(
         payload.name,
-        payload.type
+        payload.type,
+        users,
+        id,
     )
+
+    fun toPayload(): OrganizationPayload {
+        return OrganizationPayload(this)
+    }
 }
