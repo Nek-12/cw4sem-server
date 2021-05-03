@@ -22,8 +22,9 @@ data class Decision(
     val description: String,
 
     @Nationalized
-    @Column(nullable = false)
-    val strategyList: String,
+    @ElementCollection
+    @Column(nullable = false, name = "strategy_list")
+    val strategyList: List<String>,
 
     @Column(nullable = false)
     val natureStatesCounter: Int = 0,
@@ -40,7 +41,7 @@ data class Decision(
                 id,
                 payload.name,
                 payload.description,
-                payload.strategyList.joinToString(DECISION_SEPARATOR),
+                payload.strategyList,
                 payload.natureStatesCounter,
                 org,
                 payload.createdDate
