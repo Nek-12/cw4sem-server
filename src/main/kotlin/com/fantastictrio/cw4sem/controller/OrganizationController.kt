@@ -29,13 +29,13 @@ class OrganizationController(
 
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ORGANIZATION:INTERACT')")
+    @PreAuthorize("hasAuthority('ORGANIZATION:MANAGE')")
     fun getById(@PathVariable("id") id: Int): Organization {
         return organizationService.getById(id)
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ORGANIZATION:INTERACT')")
+    @PreAuthorize("hasAuthority('ORGANIZATION:MANAGE')")
     fun deleteById(@PathVariable("id") id: Int) {
         organizationService.deleteById(id)
     }

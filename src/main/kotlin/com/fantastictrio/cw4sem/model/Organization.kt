@@ -1,10 +1,11 @@
 package com.fantastictrio.cw4sem.model
 
 import com.fantastictrio.cw4sem.dto.OrganizationPayload
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import org.hibernate.annotations.Nationalized
 import javax.persistence.*
 
-
+@JsonIgnoreProperties(value = ["users"])
 @Entity(name = "organization")
 data class Organization(
     @Id

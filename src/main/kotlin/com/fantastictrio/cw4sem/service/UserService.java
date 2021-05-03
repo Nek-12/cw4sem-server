@@ -2,8 +2,10 @@ package com.fantastictrio.cw4sem.service;
 
 import com.fantastictrio.cw4sem.dto.UserPayload;
 import com.fantastictrio.cw4sem.exception.NotFoundException;
+import com.fantastictrio.cw4sem.model.Organization;
 import com.fantastictrio.cw4sem.model.Role;
 import com.fantastictrio.cw4sem.model.User;
+import com.fantastictrio.cw4sem.repository.OrganizationRepository;
 import com.fantastictrio.cw4sem.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +19,7 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final OrganizationRepository organizationRepository;
 
     public List<User> getAll() {
         return userRepository.findAll();
@@ -61,6 +64,19 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(userPayload.getPassword()));
         user.setFirstName(userPayload.getFirstName());
         user.setLastName(userPayload.getLastName());
+        if (userPayload.getOrganizationId() == null && user.getOrganization() != null) {
+            //remove organization
+            System.out.println("Remove organization");
+            user.setOrganization(null);
+        } else if (
+                (user.getOrganization() == null && userPayload.getOrganizationId() != null) //new organization
+                        || (user.getOrganization().getId() != userPayload.getOrganizationId()) //change organization
+        ) {
+            System.out.printf("new or change organization: was %s became %s (id) %n",user.getOrganization(),
+                    userPayload.getOrganizationId());
+            var org = organizationRepository.getById(userPayload.getOrganizationId());
+            user.setOrganization(org);
+        }
     }
 
     public User promoteUser(Integer id) {
