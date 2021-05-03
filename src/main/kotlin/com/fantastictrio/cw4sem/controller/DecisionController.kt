@@ -21,8 +21,8 @@ class DecisionController(
     @PostMapping("/update/{id}")
     @PreAuthorize("hasAuthority('DECISION:MANAGE')")
     fun updateById(@RequestBody payload: DecisionPayload, @PathVariable id: Int): Decision? {
-        val org = organizationService.getById(payload.organizationId)
-        return decisionService.update(Decision(payload, id, org))
+        val org = payload.organizationId?.let { organizationService.getById(it) }
+        return decisionService.update(Decision(payload, org, id))
     }
 
     @GetMapping("/{id}")
