@@ -36,4 +36,13 @@ class DecisionController(
     fun deleteById(@PathVariable("id") id: Int) {
         return decisionService.deleteById(id)
     }
+
+    @PostMapping("/add")
+    @PreAuthorize("hasAuthority('DECISION:MANAGE')")
+    fun add(@RequestBody payload: DecisionPayload): Decision? {
+        val org = payload.organizationId?.let {
+            organizationService.getById(it)
+        }
+        return decisionService.update(Decision(payload,org))
+    }
 }

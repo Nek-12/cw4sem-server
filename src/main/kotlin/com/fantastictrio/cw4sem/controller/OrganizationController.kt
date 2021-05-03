@@ -1,5 +1,6 @@
 package com.fantastictrio.cw4sem.controller
 
+import com.fantastictrio.cw4sem.dto.DecisionPayload
 import com.fantastictrio.cw4sem.dto.OrganizationPayload
 import com.fantastictrio.cw4sem.model.Organization
 import com.fantastictrio.cw4sem.model.User
@@ -38,5 +39,11 @@ class OrganizationController(
     @PreAuthorize("hasAuthority('ORGANIZATION:MANAGE')")
     fun deleteById(@PathVariable("id") id: Int) {
         organizationService.deleteById(id)
+    }
+
+    @PostMapping("/add")
+    @PreAuthorize("hasAuthority('ORGANIZATION:MANAGE')")
+    fun add(@RequestBody payload: OrganizationPayload): Organization? {
+        return organizationService.update(Organization(payload))
     }
 }
