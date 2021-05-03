@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Nationalized;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -28,9 +29,11 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Nationalized
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
+    @Nationalized
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
