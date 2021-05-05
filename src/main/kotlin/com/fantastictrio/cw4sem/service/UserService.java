@@ -2,7 +2,6 @@ package com.fantastictrio.cw4sem.service;
 
 import com.fantastictrio.cw4sem.dto.UserPayload;
 import com.fantastictrio.cw4sem.exception.NotFoundException;
-import com.fantastictrio.cw4sem.model.Organization;
 import com.fantastictrio.cw4sem.model.Role;
 import com.fantastictrio.cw4sem.model.User;
 import com.fantastictrio.cw4sem.repository.OrganizationRepository;
@@ -21,11 +20,11 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final OrganizationRepository organizationRepository;
 
-    public List<User> getAll() {
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    public User getById(Integer id) {
+    public User findById(Integer id) {
         return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
     }
 
@@ -33,27 +32,27 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public List<User> getByOrganizationId(int organization_id) {
-        return userRepository.getByOrganizationId(organization_id);
+    public List<User> findByOrganizationId(int organization_id) {
+        return userRepository.findByOrganizationId(organization_id);
     }
 
     public List<User.UserProjection> findAllProjections() {
         return userRepository.findAllProjectionsBy();
     }
 
-    public User getSelf() {
+    public User findSelf() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     public User updateSelf(UserPayload userPayload) {
-        User user = getSelf();
+        User user = findSelf();
         update(user, userPayload);
         return userRepository.save(user);
     }
 
     public User updateById(UserPayload userPayload, Integer id) {
-        User user = getById(id);
+        User user = findById(id);
         update(user, userPayload);
         return userRepository.save(user);
     }
@@ -80,7 +79,7 @@ public class UserService {
     }
 
     public User promoteUser(Integer id) {
-        User user = getById(id);
+        User user = findById(id);
         user.setRole(Role.ADMIN);
         return userRepository.save(user);
     }

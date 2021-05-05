@@ -12,7 +12,7 @@ class OrganizationService(
     val organizations: List<Organization>
         get() = repo.findAll()
 
-    fun getById(id: Int): Organization {
+    fun findById(id: Int): Organization {
         return repo.findById(id).orElseThrow { NotFoundException("Organization not found") }
     }
 

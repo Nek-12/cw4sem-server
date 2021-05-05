@@ -21,14 +21,14 @@ class DecisionController(
     @PostMapping("/update/{id}")
     @PreAuthorize("hasAuthority('DECISION:MANAGE')")
     fun updateById(@RequestBody payload: DecisionPayload, @PathVariable id: Int): Decision? {
-        val org = payload.organizationId?.let { organizationService.getById(it) }
+        val org = payload.organizationId?.let { organizationService.findById(it) }
         return decisionService.update(Decision(payload, org, id))
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('DECISION:MANAGE')")
-    fun getById(@PathVariable("id") id: Int): Decision {
-        return decisionService.getById(id)
+    fun findById(@PathVariable("id") id: Int): Decision {
+        return decisionService.findById(id)
     }
 
     @DeleteMapping("/{id}")
@@ -41,7 +41,7 @@ class DecisionController(
     @PreAuthorize("hasAuthority('DECISION:MANAGE')")
     fun add(@RequestBody payload: DecisionPayload): Decision? {
         val org = payload.organizationId?.let {
-            organizationService.getById(it)
+            organizationService.findById(it)
         }
         return decisionService.update(Decision(payload,org))
     }

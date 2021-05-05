@@ -1,6 +1,5 @@
 package com.fantastictrio.cw4sem.controller
 
-import com.fantastictrio.cw4sem.dto.DecisionPayload
 import com.fantastictrio.cw4sem.dto.OrganizationPayload
 import com.fantastictrio.cw4sem.model.Organization
 import com.fantastictrio.cw4sem.model.User
@@ -24,15 +23,15 @@ class OrganizationController(
     @PostMapping("/update/{id}")
     @PreAuthorize("hasAuthority('ORGANIZATION:MANAGE')")
     fun updateById(@RequestBody payload: OrganizationPayload, @PathVariable("id") id: Int): Organization? {
-        val users: List<User> = userService.getByOrganizationId(id) ?: emptyList()
+        val users: List<User> = userService.findByOrganizationId(id) ?: emptyList()
         return organizationService.update(Organization(payload, id, users))
     }
 
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ORGANIZATION:MANAGE')")
-    fun getById(@PathVariable("id") id: Int): Organization {
-        return organizationService.getById(id)
+    fun findById(@PathVariable("id") id: Int): Organization {
+        return organizationService.findById(id)
     }
 
     @DeleteMapping("/{id}")

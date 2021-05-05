@@ -17,14 +17,14 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('USERS:MANAGE')")
-    public List<User> getAll() {
-        return userService.getAll();
+    public List<User> findAll() {
+        return userService.findAll();
     }
 
     @GetMapping("/self")
     @PreAuthorize("isAuthenticated()")
-    public User getSelf() {
-        return userService.getSelf();
+    public User findSelf() {
+        return userService.findSelf();
     }
 
     @PostMapping("/update/self")
@@ -47,8 +47,8 @@ public class UserController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('USERS:MANAGE')")
-    public User getById(@PathVariable("id") Integer id) {
-        return userService.getById(id);
+    public User findById(@PathVariable("id") Integer id) {
+        return userService.findById(id);
     }
 
     @DeleteMapping("/{id}")
