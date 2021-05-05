@@ -60,21 +60,17 @@ public class UserService {
     private void update(User user, UserPayload userPayload) {
         user.setEmail(userPayload.getEmail());
         user.setUsername(userPayload.getUsername());
-        user.setPassword(passwordEncoder.encode(userPayload.getPassword()));
+        if (!(userPayload.getPassword() == null || userPayload.getPassword().isBlank())) {
+            user.setPassword(passwordEncoder.encode(userPayload.getPassword()));
+        }
         user.setFirstName(userPayload.getFirstName());
         user.setLastName(userPayload.getLastName());
-        if (userPayload.getOrganizationId() == null && user.getOrganization() != null) {
-            //remove organization
-            System.out.println("Remove organization");
+        if (userPayload.getOrganizationId() != null) {
+            user.setOrganization(
+                    organizationRepository.findById(userPayload.getOrganizationId()).orElse(user.getOrganization())
+            );
+        } else {
             user.setOrganization(null);
-        } else if (
-                (user.getOrganization() == null && userPayload.getOrganizationId() != null) //new organization
-                        || (user.getOrganization().getId() != userPayload.getOrganizationId()) //change organization
-        ) {
-            System.out.printf("new or change organization: was %s became %s (id) %n",user.getOrganization(),
-                    userPayload.getOrganizationId());
-            var org = organizationRepository.getById(userPayload.getOrganizationId());
-            user.setOrganization(org);
         }
     }
 

@@ -11,5 +11,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     List<User.UserProjection> findAllProjectionsBy();
 
-    List<User> findByOrganizationId(int organization_id);
+    List<User> findByOrganizationId(int organizationId);
 }
