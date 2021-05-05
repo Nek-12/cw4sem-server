@@ -14,31 +14,31 @@ class DecisionController(
     private val organizationService: OrganizationService
 ) {
     @get:GetMapping
-    @get:PreAuthorize("hasAuthority('DECISION:MANAGE')")
+    @get:PreAuthorize("isAuthenticated()")
     val decisions: List<Decision>
         get() = decisionService.decisions
 
     @PostMapping("/update/{id}")
-    @PreAuthorize("hasAuthority('DECISION:MANAGE')")
+    @PreAuthorize("isAuthenticated()")
     fun updateById(@RequestBody payload: DecisionPayload, @PathVariable id: Int): Decision? {
         val org = payload.organizationId?.let { organizationService.findById(it) }
         return decisionService.update(Decision(payload, org, id))
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('DECISION:MANAGE')")
+    @PreAuthorize("isAuthenticated()")
     fun findById(@PathVariable("id") id: Int): Decision {
         return decisionService.findById(id)
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('DECISION:MANAGE')")
+    @PreAuthorize("isAuthenticated()")
     fun deleteById(@PathVariable("id") id: Int) {
         return decisionService.deleteById(id)
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAuthority('DECISION:MANAGE')")
+    @PreAuthorize("isAuthenticated()")
     fun add(@RequestBody payload: DecisionPayload): Decision? {
         val org = payload.organizationId?.let {
             organizationService.findById(it)

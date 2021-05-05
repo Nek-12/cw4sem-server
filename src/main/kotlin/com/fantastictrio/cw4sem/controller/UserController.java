@@ -16,7 +16,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('USERS:MANAGE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<User> findAll() {
         return userService.findAll();
     }
@@ -34,25 +34,25 @@ public class UserController {
     }
 
     @PostMapping("/update/{id}")
-    @PreAuthorize("hasAuthority('USERS:MANAGE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public User updateById(@RequestBody UserPayload userPayload, @PathVariable("id") Integer id) {
         return userService.updateById(userPayload, id);
     }
 
     @PostMapping("/{id}/promote")
-    @PreAuthorize("hasAuthority('USERS:MANAGE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public User promoteUser(@PathVariable("id") Integer id) {
         return userService.promoteUser(id);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('USERS:MANAGE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public User findById(@PathVariable("id") Integer id) {
         return userService.findById(id);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('USERS:MANAGE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteById(@PathVariable("id") Integer id) {
         userService.deleteById(id);
     }

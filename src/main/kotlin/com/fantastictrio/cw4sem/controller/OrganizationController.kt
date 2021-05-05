@@ -15,13 +15,13 @@ class OrganizationController(
     private val userService: UserService
 ) {
 
-    @get:PreAuthorize("hasAuthority('ORGANIZATION:MANAGE')")
+    @get:PreAuthorize("isAuthenticated()")
     @get:GetMapping
     val organizations: List<Organization>
         get() = organizationService.organizations
 
     @PostMapping("/update/{id}")
-    @PreAuthorize("hasAuthority('ORGANIZATION:MANAGE')")
+    @PreAuthorize("isAuthenticated()")
     fun updateById(@RequestBody payload: OrganizationPayload, @PathVariable("id") id: Int): Organization? {
         val users: List<User> = userService.findByOrganizationId(id) ?: emptyList()
         return organizationService.update(Organization(payload, id, users))
@@ -29,19 +29,19 @@ class OrganizationController(
 
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ORGANIZATION:MANAGE')")
+    @PreAuthorize("isAuthenticated()")
     fun findById(@PathVariable("id") id: Int): Organization {
         return organizationService.findById(id)
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ORGANIZATION:MANAGE')")
+    @PreAuthorize("isAuthenticated()")
     fun deleteById(@PathVariable("id") id: Int) {
         organizationService.deleteById(id)
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAuthority('ORGANIZATION:MANAGE')")
+    @PreAuthorize("isAuthenticated()")
     fun add(@RequestBody payload: OrganizationPayload): Organization? {
         return organizationService.update(Organization(payload))
     }
