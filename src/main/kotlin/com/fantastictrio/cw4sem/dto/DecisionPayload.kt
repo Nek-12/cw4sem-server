@@ -7,7 +7,7 @@ data class DecisionPayload(
     val name: String,
     val description: String,
     val strategyList: List<String>,
-    val natureStatesCounter: Int,
+    val natureStatesCount: Int,
     val organizationId: Int?,
     val createdDate: Instant,
 ) {

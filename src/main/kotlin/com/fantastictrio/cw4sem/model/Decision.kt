@@ -49,7 +49,7 @@ data class Decision(
                 payload.createdDate,
                 org,
                 emptyList(), //always invalidate all records
-                payload.natureStatesCounter,
+                payload.natureStatesCount,
                 id,
             )
     fun toPayload(): DecisionPayload {
