@@ -36,9 +36,9 @@ public class AuthService {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .build();
-        userRepository.save(user);
+        user = userRepository.save(user);
 
-        return generateAuthenticationToken(request.getUsername(), user.getRole());
+        return generateAuthenticationToken(request.getUsername(), user.getRole(), user.getId());
     }
 
     public boolean isUserRegistered(String username) {
@@ -49,15 +49,16 @@ public class AuthService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         User user = userRepository.findByUsername(loginRequest.getUsername()).get();
         Role role = user.getRole();
-        return generateAuthenticationToken(user.getUsername(), role);
+        return generateAuthenticationToken(user.getUsername(), role, user.getId());
     }
 
-    public AuthenticationResponse generateAuthenticationToken(String username, Role role) {
+    public AuthenticationResponse generateAuthenticationToken(String username, Role role, int id) {
         String token = jwtTokenProvider.createToken(username);
         return AuthenticationResponse.builder()
                 .authenticationToken(token)
                 .username(username)
                 .role(role)
+                .id(id)
                 .build();
     }
 }

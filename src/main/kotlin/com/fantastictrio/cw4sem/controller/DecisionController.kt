@@ -68,7 +68,7 @@ class DecisionController(
     val records: List<DecisionRecord>
         get() = recordService.records
 
-    @GetMapping("records/{id}")
+    @GetMapping("/records/{id}")
     @PreAuthorize("isAuthenticated()")
     fun findRecordById(@PathVariable("id") id: Int): DecisionRecord {
         return recordService.findById(id)
