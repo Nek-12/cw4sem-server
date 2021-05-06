@@ -1,9 +1,12 @@
 package com.fantastictrio.cw4sem.controller
 
+import com.fantastictrio.cw4sem.DecisionMaker
 import com.fantastictrio.cw4sem.dto.DecisionPayload
 import com.fantastictrio.cw4sem.model.Decision
+import com.fantastictrio.cw4sem.model.DecisionRecord
 import com.fantastictrio.cw4sem.service.DecisionService
 import com.fantastictrio.cw4sem.service.OrganizationService
+import com.fantastictrio.cw4sem.service.RecordService
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
@@ -11,7 +14,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/decisions")
 class DecisionController(
     private val decisionService: DecisionService,
-    private val organizationService: OrganizationService
+    private val organizationService: OrganizationService,
+    private val recordService: RecordService,
 ) {
     @get:GetMapping
     @get:PreAuthorize("isAuthenticated()")
@@ -44,5 +48,29 @@ class DecisionController(
             organizationService.findById(it)
         }
         return decisionService.update(Decision(payload,org))
+    }
+
+    @PostMapping("/make/{id}")
+    @PreAuthorize("isAuthenticated()")
+    fun make(@PathVariable("id") decisionId: Int): DecisionRecord {
+        val decision = decisionService.findById(decisionId)
+        val result = DecisionMaker.make(decision)
+        return recordService.save(result)
+    }
+
+    @DeleteMapping("/record/{id}")
+    fun deleteRecordById(@PathVariable("id") id: Int) {
+        return recordService.deleteById(id)
+    }
+
+    @get:GetMapping("/records")
+    @get:PreAuthorize("isAuthenticated()")
+    val records: List<DecisionRecord>
+        get() = recordService.records
+
+    @GetMapping("records/{id}")
+    @PreAuthorize("isAuthenticated()")
+    fun findRecordById(@PathVariable("id") id: Int): DecisionRecord {
+        return recordService.findById(id)
     }
 }

@@ -5,8 +5,6 @@ import org.hibernate.annotations.Nationalized
 import java.time.Instant
 import javax.persistence.*
 
-const val DECISION_SEPARATOR = ";"
-
 @Entity(name = "decision")
 data class Decision(
     @Nationalized
@@ -22,15 +20,22 @@ data class Decision(
     @Column(nullable = false, name = "strategy_list")
     val strategyList: List<String>,
 
+    @Column(name = "created_date")
+    val createdDate: Instant,
+
     @ManyToOne
     @JoinColumn(name = "organization_id")
     val organization: Organization? = null,
 
-    @Column(name = "created_date")
-    val createdDate: Instant,
 
+    @OneToMany(mappedBy = "decision", cascade = [CascadeType.ALL])
+    val records: List<DecisionRecord> = emptyList(),
+
+    /**
+     * Represents the amount of states the nature can possibly be in.
+     */
     @Column(nullable = false)
-    val natureStatesCounter: Int = 0,
+    val natureStatesCount: Int = 0,
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,8 +46,9 @@ data class Decision(
                 payload.name,
                 payload.description,
                 payload.strategyList,
-                org,
                 payload.createdDate,
+                org,
+                emptyList(), //always invalidate all records
                 payload.natureStatesCounter,
                 id,
             )
