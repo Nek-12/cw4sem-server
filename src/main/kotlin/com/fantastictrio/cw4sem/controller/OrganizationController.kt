@@ -14,8 +14,6 @@ class OrganizationController(
     private val organizationService: OrganizationService,
     private val userService: UserService
 ) {
-
-    @get:PreAuthorize("isAuthenticated()")
     @get:GetMapping
     val organizations: List<Organization>
         get() = organizationService.organizations
