@@ -34,4 +34,7 @@ data class Organization(
     fun toPayload(): OrganizationPayload {
         return OrganizationPayload(this)
     }
+
+    val employeeCount: Int
+    get() = users.size
 }
