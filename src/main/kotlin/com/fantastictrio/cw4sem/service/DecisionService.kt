@@ -15,6 +15,10 @@ class DecisionService(private val repo: DecisionRepository) {
         return repo.findById(id).orElseThrow { NotFoundException("Decision not found") }
     }
 
+    fun findByOrganizationId(id: Int): List<Decision> {
+        return repo.findByOrganizationId(id)
+    }
+
     fun deleteById(id: Int) {
         repo.deleteById(id)
     }

@@ -1,5 +1,7 @@
 package com.fantastictrio.cw4sem.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import java.time.Instant
 import javax.persistence.*
 
 /**
@@ -17,9 +19,13 @@ data class DecisionRecord(
 
     @ManyToOne
     @JoinColumn(name = "decision_id")
+    @JsonIgnore
     val decision: Decision,
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0
+    val id: Long = 0,
+
+    @Column(nullable = false)
+    val createdDate: Instant = Instant.now(),
 )

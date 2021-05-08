@@ -3,6 +3,7 @@ package com.fantastictrio.cw4sem.model
 import com.fantastictrio.cw4sem.dto.OrganizationPayload
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import org.hibernate.annotations.Nationalized
+import java.time.Instant
 import javax.persistence.*
 
 @JsonIgnoreProperties(value = ["users"])
@@ -23,6 +24,9 @@ data class Organization(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int = 0,
+
+    @Column(nullable = false)
+    val createdDate: Instant = Instant.now(),
 ) {
     constructor(payload: OrganizationPayload, id: Int = 0, users: List<User> = emptyList()) : this(
         payload.name,

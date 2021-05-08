@@ -21,7 +21,7 @@ data class Decision(
     val strategyList: List<String>,
 
     @Column(name = "created_date")
-    val createdDate: Instant,
+    val createdDate: Instant = Instant.now(),
 
     @ManyToOne
     @JoinColumn(name = "organization_id")
