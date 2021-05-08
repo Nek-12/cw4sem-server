@@ -20,6 +20,8 @@ class DecisionService(private val repo: DecisionRepository) {
     }
 
     fun update(decision: Decision): Decision? {
-        return repo.save(decision)
+        //remove all records
+        val newDecision = Decision(decision.toPayload(),decision.organization,decision.id)
+        return repo.save(newDecision)
     }
 }
