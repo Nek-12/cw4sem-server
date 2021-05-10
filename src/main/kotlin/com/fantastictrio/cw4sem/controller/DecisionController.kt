@@ -58,9 +58,9 @@ class DecisionController(
 
     @PostMapping("/make/{id}")
     @PreAuthorize("isAuthenticated()")
-    fun make(@PathVariable("id") decisionId: Int): DecisionRecord {
+    fun make(@PathVariable("id") decisionId: Int, @RequestBody matrix: List<List<Double>>): DecisionRecord {
         val decision = decisionService.findById(decisionId)
-        val result = DecisionMaker.make(decision)
+        val result = DecisionMaker.make(decision, matrix)
         return recordService.save(result)
     }
 
