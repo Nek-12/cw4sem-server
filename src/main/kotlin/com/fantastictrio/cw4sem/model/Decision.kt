@@ -25,7 +25,7 @@ data class Decision(
 
     @ManyToOne
     @JoinColumn(name = "organization_id")
-    val organization: Organization? = null,
+    val organization: Organization,
 
 
     @OneToMany(mappedBy = "decision", cascade = [CascadeType.ALL])
@@ -41,7 +41,7 @@ data class Decision(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int = 0,
 ) {
-    constructor(payload: DecisionPayload, org: Organization? = null, id: Int = 0) :
+    constructor(payload: DecisionPayload, org: Organization, id: Int = 0) :
             this(
                 payload.name,
                 payload.description,

@@ -8,7 +8,7 @@ data class DecisionPayload(
     val description: String,
     val strategyList: List<String>,
     val natureStatesCount: Int,
-    val organizationId: Int?,
+    val organizationId: Int,
     val createdDate: Instant,
 ) {
     constructor(d: Decision): this(d.name,d.description,d.strategyList,d.natureStatesCount,d.organization?.id,d
