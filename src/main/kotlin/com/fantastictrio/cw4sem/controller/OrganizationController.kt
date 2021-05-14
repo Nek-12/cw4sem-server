@@ -6,9 +6,12 @@ import com.fantastictrio.cw4sem.model.User
 import com.fantastictrio.cw4sem.service.OrganizationService
 import com.fantastictrio.cw4sem.service.UserService
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
+@Validated
 @RequestMapping("/organizations")
 class OrganizationController(
     private val organizationService: OrganizationService,
@@ -20,7 +23,7 @@ class OrganizationController(
 
     @PostMapping("/update/{id}")
     @PreAuthorize("isAuthenticated()")
-    fun updateById(@RequestBody payload: OrganizationPayload, @PathVariable("id") id: Int): Organization? {
+    fun updateById(@Valid @RequestBody payload: OrganizationPayload, @PathVariable("id") id: Int): Organization? {
         val users: List<User> = userService.findByOrganizationId(id) ?: emptyList()
         return organizationService.update(Organization(payload, id, users))
     }
@@ -40,7 +43,7 @@ class OrganizationController(
 
     @PostMapping("/add")
     @PreAuthorize("isAuthenticated()")
-    fun add(@RequestBody payload: OrganizationPayload): Organization? {
+    fun add(@Valid @RequestBody payload: OrganizationPayload): Organization? {
         return organizationService.update(Organization(payload))
     }
 }

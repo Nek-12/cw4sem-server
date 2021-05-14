@@ -5,16 +5,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import org.hibernate.annotations.Nationalized
 import java.time.Instant
 import javax.persistence.*
+import javax.validation.constraints.Pattern
 
 @JsonIgnoreProperties(value = ["users"])
 @Entity(name = "organization")
 data class Organization(
 
     @Nationalized
+    @Pattern(regexp = "[a-zA-Zа-яА-Я\\s\\d]{3,30}")
     @Column(nullable = false, unique = true)
     val name: String,
 
     @Nationalized
+    @Pattern(regexp = "[a-zA-Zа-яА-Я\\s]{3,30}")
     @Column(nullable = false)
     val type: String,
 

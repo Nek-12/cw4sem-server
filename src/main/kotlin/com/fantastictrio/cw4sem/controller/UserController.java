@@ -5,10 +5,13 @@ import com.fantastictrio.cw4sem.model.User;
 import com.fantastictrio.cw4sem.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
+@Validated
 @RestController
 @AllArgsConstructor
 @RequestMapping("/users")
@@ -29,13 +32,13 @@ public class UserController {
 
     @PostMapping("/update/self")
     @PreAuthorize("isAuthenticated()")
-    public User updateSelf(@RequestBody UserPayload userPayload) {
+    public User updateSelf(@Valid @RequestBody UserPayload userPayload) {
         return userService.updateSelf(userPayload);
     }
 
     @PostMapping("/update/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public User updateById(@RequestBody UserPayload userPayload, @PathVariable("id") Integer id) {
+    public User updateById(@Valid @RequestBody UserPayload userPayload, @PathVariable("id") Integer id) {
         return userService.updateById(userPayload, id);
     }
 
