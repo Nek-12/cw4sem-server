@@ -2,6 +2,7 @@ package com.fantastictrio.cw4sem.dto
 
 import com.fantastictrio.cw4sem.model.Decision
 import java.time.Instant
+import javax.validation.constraints.Max
 import javax.validation.constraints.Min
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
@@ -17,6 +18,14 @@ data class DecisionPayload(
 
     @field:Min(1)
     val natureStatesCount: Int,
+
+
+    /**
+     * User-defined value needed for the algorithms
+     */
+    @field:Max(1)
+    @field:Min(0)
+    val pessimismCoefficient: Double,
 
     val organizationId: Int,
 

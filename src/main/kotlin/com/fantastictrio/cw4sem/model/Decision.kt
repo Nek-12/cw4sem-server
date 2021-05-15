@@ -37,6 +37,9 @@ data class Decision(
     @Column(nullable = false)
     val natureStatesCount: Int = 0,
 
+    @Column(nullable = false)
+    val pessimismCoefficient: Double,
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int = 0,
@@ -50,6 +53,7 @@ data class Decision(
                 org,
                 emptyList(), //always invalidate all records
                 payload.natureStatesCount,
+                payload.pessimismCoefficient,
                 id,
             )
     fun toPayload(): DecisionPayload {
