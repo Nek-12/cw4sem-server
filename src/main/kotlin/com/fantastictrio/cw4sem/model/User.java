@@ -35,12 +35,12 @@ public class User {
     private String email;
 
     @Nationalized
-    @Pattern(regexp = "([A-Z][a-z]|[А-Я][a-я]{1,30})")
+    @Pattern(regexp = "([A-ZА-Я][a-zа-я]{1,30})")
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
     @Nationalized
-    @Pattern(regexp = "([A-Z][a-z]|[А-Я][a-я]{1,31})")
+    @Pattern(regexp = "([A-ZА-Я][a-zа-я]{1,30})")
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
