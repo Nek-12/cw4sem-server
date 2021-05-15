@@ -7,32 +7,17 @@ import java.time.Instant;
 import java.util.*;
 
 public class DecisionMaker {
-    /**
-     * matrix has rows (outer list) and columns (inner list), it's a matrix of variables needed for making the decision
-     * excluding strategy list names and nature states numbers. E.g.
-     * nature state-->   1  2  3
-     * --------
-     * bankrupcy       | 15 22 70 |
-     * run away        | 44 11 03 |
-     * refuse proposal | 87 22 41 | <-- matrix
-     * --------
-     **/
 
     public static DecisionRecord make(Decision decision, List<List<Double>> matrix) {
-        return new DecisionRecord(waldCriterionMaker(matrix),
-                savageCriterionMaker(matrix), gutvitzCriterionMaker(matrix,decision.getPessimismCoefficient()),
+        List<List<Double>> transposedMatrix = transpose(matrix);
+        return new DecisionRecord(waldCriterionMaker(transposedMatrix),
+                savageCriterionMaker(transposedMatrix), gutvitzCriterionMaker(transposedMatrix,decision.getPessimismCoefficient()),
                 decision, 0, Instant.now());
     }
 
-    /*public static void main(String... args) {
-        List<List<Double>> list = Arrays.asList(Arrays.asList(11.0, 5.0, 13.0), Arrays.asList(1.0, 2.0, 3.0),
-                Arrays.asList(9.0, 2.0, 5.0));
-    }*/
-
     private static int waldCriterionMaker(List<List<Double>> matrix) {
         List<Double> maxColumnValue = new ArrayList<>();
-        List<List<Double>> transposedMatrix = transpose(matrix);
-        for (List<Double> column : transposedMatrix) {
+        for (List<Double> column : matrix) {
             maxColumnValue.add(Collections.max(column));
         }
         return maxColumnValue.indexOf(Collections.min(maxColumnValue));
@@ -40,9 +25,8 @@ public class DecisionMaker {
 
     private static int savageCriterionMaker(List<List<Double>> matrix) {
         List<Double> maxRowValue = new ArrayList<>();
-        List<List<Double>> transposedMatrix = transpose(matrix);
         double minValue = findMinMatrixValue(matrix);
-        for (List<Double> row : transposedMatrix) {
+        for (List<Double> row : matrix) {
             for (int i = 0; i < row.size(); i++) {
                 row.set(i, row.get(i) - minValue);
             }
@@ -53,18 +37,19 @@ public class DecisionMaker {
 
     private static int gutvitzCriterionMaker(List<List<Double>> matrix, double coefficient) {
         List<Double> coefficientValue = new ArrayList<>();
-        List<List<Double>> transposedMatrix = transpose(matrix);
-        for (List<Double> list : transposedMatrix) {
+        for (List<Double> list : matrix) {
             coefficientValue.add(coefficient * Collections.min(list) +
                     (1 - coefficient) * Collections.max(list));
         }
         return coefficientValue.indexOf(Collections.min(coefficientValue));
     }
 
+
+
     /* services */
 
     private static List<List<Double>> transpose(List<List<Double>> matrix) {
-        List<List<Double>> transposedMatrix = new ArrayList<List<Double>>();
+        List<List<Double>> transposedMatrix = new ArrayList<>();
         int noElementsInMatrix = matrix.get(0).size();
         for (int i = 0; i < noElementsInMatrix; i++) {
             List<Double> col = new ArrayList<Double>();
