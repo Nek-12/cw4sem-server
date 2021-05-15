@@ -9,15 +9,15 @@ import java.util.*;
 public class DecisionMaker {
 
     public static DecisionRecord make(Decision decision, List<List<Double>> matrix) {
-        List<List<Double>> transposedMatrix = transpose(matrix);
-        return new DecisionRecord(waldCriterionMaker(transposedMatrix),
-                savageCriterionMaker(transposedMatrix), gutvitzCriterionMaker(transposedMatrix,decision.getPessimismCoefficient()),
+        return new DecisionRecord(waldCriterionMaker(matrix),
+                savageCriterionMaker(matrix), gutvitzCriterionMaker(matrix,decision.getPessimismCoefficient()),
                 decision, 0, Instant.now());
     }
 
     private static int waldCriterionMaker(List<List<Double>> matrix) {
         List<Double> maxColumnValue = new ArrayList<>();
-        for (List<Double> column : matrix) {
+        List<List<Double>> transposedMatrix = transpose(matrix);
+        for (List<Double> column : transposedMatrix) {
             maxColumnValue.add(Collections.max(column));
         }
         return maxColumnValue.indexOf(Collections.min(maxColumnValue));
@@ -25,8 +25,9 @@ public class DecisionMaker {
 
     private static int savageCriterionMaker(List<List<Double>> matrix) {
         List<Double> maxRowValue = new ArrayList<>();
+        List<List<Double>> transposedMatrix = transpose(matrix);
         double minValue = findMinMatrixValue(matrix);
-        for (List<Double> row : matrix) {
+        for (List<Double> row : transposedMatrix) {
             for (int i = 0; i < row.size(); i++) {
                 row.set(i, row.get(i) - minValue);
             }
@@ -37,7 +38,8 @@ public class DecisionMaker {
 
     private static int gutvitzCriterionMaker(List<List<Double>> matrix, double coefficient) {
         List<Double> coefficientValue = new ArrayList<>();
-        for (List<Double> list : matrix) {
+        List<List<Double>> transposedMatrix = transpose(matrix);
+        for (List<Double> list : transposedMatrix) {
             coefficientValue.add(coefficient * Collections.min(list) +
                     (1 - coefficient) * Collections.max(list));
         }
