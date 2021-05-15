@@ -2,7 +2,6 @@ package com.fantastictrio.cw4sem.repository;
 
 import com.fantastictrio.cw4sem.model.Decision;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 

@@ -1,7 +1,6 @@
 package com.fantastictrio.cw4sem.service
 
 import com.fantastictrio.cw4sem.exception.NotFoundException
-import com.fantastictrio.cw4sem.model.Decision
 import com.fantastictrio.cw4sem.model.DecisionRecord
 import com.fantastictrio.cw4sem.repository.DecisionRepository
 import com.fantastictrio.cw4sem.repository.RecordRepository

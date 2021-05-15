@@ -4,18 +4,14 @@ import com.fantastictrio.cw4sem.dto.DecisionPayload
 import org.hibernate.annotations.Nationalized
 import java.time.Instant
 import javax.persistence.*
-import javax.validation.constraints.Pattern
-import javax.validation.constraints.Size
 
 @Entity(name = "decision")
 data class Decision(
     @Nationalized
-    @Pattern(regexp = "[a-zA-Zа-яА-Я\\s\\d]{3,30}") //Любой язык + пробел + цифры
     @Column(nullable = false, unique = true)
     val name: String,
 
     @Nationalized
-    @Size(max = 256)
     @Column(nullable = false)
     val description: String,
 
