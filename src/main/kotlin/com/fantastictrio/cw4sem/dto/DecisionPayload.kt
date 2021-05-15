@@ -31,6 +31,13 @@ data class DecisionPayload(
 
     val createdDate: Instant,
 ) {
-    constructor(d: Decision): this(d.name,d.description,d.strategyList,d.natureStatesCount,d.organization?.id,d
-        .createdDate)
+    constructor(d: Decision): this(
+        d.name,
+        d.description,
+        d.strategyList,
+        d.natureStatesCount,
+        d.pessimismCoefficient,
+        d.organization.id,
+        d.createdDate
+    )
 }
