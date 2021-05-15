@@ -7,15 +7,15 @@ import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 
 data class DecisionPayload(
-    @Pattern(regexp = "[a-zA-Zа-яА-Я\\s\\d]{3,30}") //Любой язык + пробел + цифры
+    @field:Pattern(regexp = "[a-zA-Zа-яА-Я\\s\\d]{3,30}") //Любой язык + пробел + цифры
     val name: String,
 
-    @Size(max = 256)
+    @field:Size(max = 256)
     val description: String,
 
     val strategyList: List<String>,
 
-    @Min(1)
+    @field:Min(1)
     val natureStatesCount: Int,
 
     val organizationId: Int,
