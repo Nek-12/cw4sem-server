@@ -8,8 +8,11 @@ import com.fantastictrio.cw4sem.service.DecisionService
 import com.fantastictrio.cw4sem.service.OrganizationService
 import com.fantastictrio.cw4sem.service.RecordService
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
+@Validated
 @RestController
 @RequestMapping("/decisions")
 class DecisionController(
@@ -24,7 +27,7 @@ class DecisionController(
 
     @PostMapping("/update/{id}")
     @PreAuthorize("isAuthenticated()")
-    fun updateById(@RequestBody payload: DecisionPayload, @PathVariable id: Int): Decision? {
+    fun updateById(@Valid @RequestBody payload: DecisionPayload, @PathVariable id: Int): Decision? {
         val org = organizationService.findById(payload.organizationId)
         return decisionService.update(Decision(payload, org, id))
     }
@@ -49,7 +52,7 @@ class DecisionController(
 
     @PostMapping("/add")
     @PreAuthorize("isAuthenticated()")
-    fun add(@RequestBody payload: DecisionPayload): Decision? {
+    fun add(@Valid @RequestBody payload: DecisionPayload): Decision? {
         val org = payload.organizationId?.let {
             organizationService.findById(it)
         }
@@ -58,7 +61,7 @@ class DecisionController(
 
     @PostMapping("/make/{id}")
     @PreAuthorize("isAuthenticated()")
-    fun make(@PathVariable("id") decisionId: Int, @RequestBody matrix: List<List<Double>>): DecisionRecord {
+    fun make(@PathVariable("id") decisionId: Int, @Valid @RequestBody matrix: List<List<Double>>): DecisionRecord {
         val decision = decisionService.findById(decisionId)
         val result = DecisionMaker.make(decision, matrix)
         return recordService.save(result)
