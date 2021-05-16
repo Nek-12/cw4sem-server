@@ -63,12 +63,10 @@ public class UserService {
         if (!(userPayload.getPassword() == null || userPayload.getPassword().isBlank())) {
             newPassword = passwordEncoder.encode(userPayload.getPassword());
         }
-        Organization org;
+        Organization org = null;
         if (userPayload.getOrganizationId() != null) {
             org = organizationRepository.findById(userPayload.getOrganizationId()).orElseThrow(() ->
                     new NotFoundException("Organization you want to join was not found"));
-        } else {
-            org = null;
         }
         return new User(userPayload, newPassword, user.getRole(), org, user.getId(), user.getCreatedDate());
     }
