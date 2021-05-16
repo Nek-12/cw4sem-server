@@ -5,7 +5,6 @@ import com.fantastictrio.cw4sem.dto.DecisionPayload
 import com.fantastictrio.cw4sem.model.Decision
 import com.fantastictrio.cw4sem.model.DecisionRecord
 import com.fantastictrio.cw4sem.service.DecisionService
-import com.fantastictrio.cw4sem.service.OrganizationService
 import com.fantastictrio.cw4sem.service.RecordService
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.validation.annotation.Validated
@@ -17,7 +16,6 @@ import javax.validation.Valid
 @RequestMapping("/decisions")
 class DecisionController(
     private val decisionService: DecisionService,
-    private val organizationService: OrganizationService,
     private val recordService: RecordService,
 ) {
     @get:GetMapping
@@ -28,8 +26,7 @@ class DecisionController(
     @PostMapping("/update/{id}")
     @PreAuthorize("isAuthenticated()")
     fun updateById(@Valid @RequestBody payload: DecisionPayload, @PathVariable id: Int): Decision? {
-        val org = organizationService.findById(payload.organizationId)
-        return decisionService.update(Decision(payload, org, id))
+        return decisionService.update(payload, id)
     }
 
     @GetMapping("/{id}")
@@ -41,7 +38,7 @@ class DecisionController(
     @GetMapping("/organization/{id}")
     @PreAuthorize("isAuthenticated()")
     fun findByOrganizationId(@PathVariable("id") id: Int): List<Decision> {
-        return decisionService.findByOrganizationId(id)
+        return decisionService.findByUserId(id)
     }
 
     @DeleteMapping("/{id}")
@@ -53,10 +50,7 @@ class DecisionController(
     @PostMapping("/add")
     @PreAuthorize("isAuthenticated()")
     fun add(@Valid @RequestBody payload: DecisionPayload): Decision? {
-        val org = payload.organizationId?.let {
-            organizationService.findById(it)
-        }
-        return decisionService.update(Decision(payload,org))
+        return decisionService.add(payload)
     }
 
     @PostMapping("/make/{id}")

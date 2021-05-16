@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+
 @Service
 @Transactional
 @AllArgsConstructor
@@ -25,17 +27,11 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse signup(UserPayload request) throws DuplicateException {
-        if (isUserRegistered(request.getUsername())){
+        if (isUserRegistered(request.getUsername())) {
             throw new DuplicateException("User with this username already exists");
         }
-        User user = User.builder()
-                .password(passwordEncoder.encode(request.getPassword()))
-                .username(request.getUsername())
-                .role(Role.USER)
-                .email(request.getEmail())
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .build();
+        User user = new User(request, passwordEncoder.encode(request.getPassword()),
+                Role.USER, null, 0, Instant.now());
         user = userRepository.save(user);
 
         return generateAuthenticationToken(request.getUsername(), user.getRole(), user.getId());

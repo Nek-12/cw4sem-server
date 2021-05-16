@@ -1,5 +1,6 @@
 package com.fantastictrio.cw4sem.dto
 
+import com.fantastictrio.cw4sem.model.User
 import javax.validation.constraints.Email
 import javax.validation.constraints.Pattern
 
@@ -15,4 +16,13 @@ data class UserPayload(
      @field:Pattern(regexp = "([A-ZА-Я][a-zа-я]{1,30})")
      val lastName: String,
      val organizationId: Int? = null,
-)
+) {
+     constructor(u: User) : this(
+          u.username,
+          u.password,
+          u.email,
+          u.firstName,
+          u.lastName,
+          u.organization?.id
+     )
+}

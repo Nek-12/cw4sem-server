@@ -2,6 +2,7 @@ package com.fantastictrio.cw4sem.service;
 
 import com.fantastictrio.cw4sem.dto.UserPayload;
 import com.fantastictrio.cw4sem.exception.NotFoundException;
+import com.fantastictrio.cw4sem.model.Organization;
 import com.fantastictrio.cw4sem.model.Role;
 import com.fantastictrio.cw4sem.model.User;
 import com.fantastictrio.cw4sem.repository.OrganizationRepository;
@@ -47,31 +48,28 @@ public class UserService {
 
     public User updateSelf(UserPayload userPayload) {
         User user = findSelf();
-        update(user, userPayload);
+        user = update(user, userPayload);
         return userRepository.save(user);
     }
 
     public User updateById(UserPayload userPayload, Integer id) {
         User user = findById(id);
-        update(user, userPayload);
+        user = update(user, userPayload);
         return userRepository.save(user);
     }
 
-    private void update(User user, UserPayload userPayload) {
-        user.setEmail(userPayload.getEmail());
-        user.setUsername(userPayload.getUsername());
+    private User update(User user, UserPayload userPayload) {
+        var newPassword = "";
         if (!(userPayload.getPassword() == null || userPayload.getPassword().isBlank())) {
-            user.setPassword(passwordEncoder.encode(userPayload.getPassword()));
+            newPassword = passwordEncoder.encode(userPayload.getPassword());
         }
-        user.setFirstName(userPayload.getFirstName());
-        user.setLastName(userPayload.getLastName());
+        Organization org;
         if (userPayload.getOrganizationId() != null) {
-            user.setOrganization(
-                    organizationRepository.findById(userPayload.getOrganizationId()).orElse(user.getOrganization())
-            );
+            org = organizationRepository.findById(userPayload.getOrganizationId()).orElse(user.getOrganization());
         } else {
-            user.setOrganization(null);
+            org = user.getOrganization();
         }
+        return new User(userPayload, newPassword, user.getRole(), org, user.getId(), user.getCreatedDate());
     }
 
     public User promoteUser(Integer id) {

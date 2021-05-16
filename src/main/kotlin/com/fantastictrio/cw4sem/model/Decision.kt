@@ -24,8 +24,8 @@ data class Decision(
     val createdDate: Instant = Instant.now(),
 
     @ManyToOne
-    @JoinColumn(name = "organization_id")
-    val organization: Organization,
+    @JoinColumn(name = "user_id")
+    val user: User,
 
 
     @OneToMany(mappedBy = "decision", cascade = [CascadeType.ALL])
@@ -44,14 +44,14 @@ data class Decision(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int = 0,
 ) {
-    constructor(payload: DecisionPayload, org: Organization, id: Int = 0) :
+    constructor(payload: DecisionPayload, user: User, records: List<DecisionRecord>, id: Int = 0) :
             this(
                 payload.name,
                 payload.description,
                 payload.strategyList,
                 payload.createdDate,
-                org,
-                emptyList(), //always invalidate all records
+                user,
+                records,
                 payload.natureStatesCount,
                 payload.pessimismCoefficient,
                 id,

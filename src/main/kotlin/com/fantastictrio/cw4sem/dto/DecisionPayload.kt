@@ -8,7 +8,7 @@ import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 
 data class DecisionPayload(
-    @field:Pattern(regexp = "[a-zA-Zа-яА-Я\\s\\d]{3,30}") //Любой язык + пробел + цифры
+    @field:Pattern(regexp = "[a-zA-Zа-яА-Я\\s\\d]{3,30}") //Русский/англ язык + пробел + цифры
     val name: String,
 
     @field:Size(max = 256)
@@ -27,7 +27,7 @@ data class DecisionPayload(
     @field:Min(0)
     val pessimismCoefficient: Double,
 
-    val organizationId: Int,
+    val userId: Int,
 
     val createdDate: Instant,
 ) {
@@ -37,7 +37,7 @@ data class DecisionPayload(
         d.strategyList,
         d.natureStatesCount,
         d.pessimismCoefficient,
-        d.organization.id,
+        d.user.id,
         d.createdDate
     )
 }

@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface DecisionRepository extends JpaRepository<Decision, Integer>  {
    // @Query("select d from decision d where organization.id = :id")
-    List<Decision> findByOrganizationId(int id);
+   List<Decision> findByUserId(int id);
 }
