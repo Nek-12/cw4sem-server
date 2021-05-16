@@ -35,9 +35,9 @@ class DecisionController(
         return decisionService.findById(id)
     }
 
-    @GetMapping("/organization/{id}")
+    @GetMapping("/user/{id}")
     @PreAuthorize("isAuthenticated()")
-    fun findByOrganizationId(@PathVariable("id") id: Int): List<Decision> {
+    fun findByUserId(@PathVariable("id") id: Int): List<Decision> {
         return decisionService.findByUserId(id)
     }
 
