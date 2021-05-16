@@ -34,9 +34,16 @@ class DecisionService(
     }
 
     fun update(payload: DecisionPayload, id: Int): Decision? {
-        //remove all records
         val decision = findById(id)
-        val withoutRecords = Decision(payload, decision.user, emptyList(), id)
+        //remove all records if the data is now invalidated
+        val records = if (decision.strategyList == payload.strategyList &&
+            decision.natureStatesCount == payload.natureStatesCount &&
+            decision.pessimismCoefficient == payload.pessimismCoefficient
+        ) {
+            decision.records
+        } else emptyList()
+
+        val withoutRecords = Decision(payload, decision.user, records, id)
         return repo.save(withoutRecords)
     }
 }
