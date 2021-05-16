@@ -65,9 +65,10 @@ public class UserService {
         }
         Organization org;
         if (userPayload.getOrganizationId() != null) {
-            org = organizationRepository.findById(userPayload.getOrganizationId()).orElse(user.getOrganization());
+            org = organizationRepository.findById(userPayload.getOrganizationId()).orElseThrow(() ->
+                    new NotFoundException("Organization you want to join was not found"));
         } else {
-            org = user.getOrganization();
+            org = null;
         }
         return new User(userPayload, newPassword, user.getRole(), org, user.getId(), user.getCreatedDate());
     }
