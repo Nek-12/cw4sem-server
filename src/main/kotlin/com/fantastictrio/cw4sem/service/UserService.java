@@ -59,9 +59,11 @@ public class UserService {
     }
 
     private User update(User user, UserPayload userPayload) {
-        var newPassword = "";
+        String newPassword = null;
         if (!(userPayload.getPassword() == null || userPayload.getPassword().isBlank())) {
             newPassword = passwordEncoder.encode(userPayload.getPassword());
+        } else {
+            newPassword = user.getPassword();
         }
         Organization org = null;
         if (userPayload.getOrganizationId() != null) {
