@@ -7,7 +7,7 @@ import javax.validation.constraints.Pattern
 data class UserPayload(
      @field:Pattern(regexp = "[\\w-.]{3,31}")
      val username: String,
-     @field:Pattern(regexp = "[\\x21-\\x7E]{8,64}")
+     @field:Pattern(regexp = "[\\x21-\\x7E]{8,64}|^\$")
      val password: String?,
      @field:Email
      val email: String,
