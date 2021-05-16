@@ -59,16 +59,15 @@ public class UserService {
     }
 
     private User update(User user, UserPayload userPayload) {
-        String newPassword = null;
+        String newPassword = user.getPassword();
         if (!(userPayload.getPassword() == null || userPayload.getPassword().isBlank())) {
             newPassword = passwordEncoder.encode(userPayload.getPassword());
-        } else {
-            newPassword = user.getPassword();
         }
+
         Organization org = null;
         if (userPayload.getOrganizationId() != null) {
             org = organizationRepository.findById(userPayload.getOrganizationId()).orElseThrow(() ->
-                    new NotFoundException("Organization you want to join was not found"));
+                    new NotFoundException("Organization not found"));
         }
         return new User(userPayload, newPassword, user.getRole(), org, user.getId(), user.getCreatedDate());
     }

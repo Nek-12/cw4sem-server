@@ -4,8 +4,10 @@ import com.fantastictrio.cw4sem.dto.AuthenticationResponse;
 import com.fantastictrio.cw4sem.dto.LoginRequest;
 import com.fantastictrio.cw4sem.dto.UserPayload;
 import com.fantastictrio.cw4sem.exception.DuplicateException;
+import com.fantastictrio.cw4sem.model.Organization;
 import com.fantastictrio.cw4sem.model.Role;
 import com.fantastictrio.cw4sem.model.User;
+import com.fantastictrio.cw4sem.repository.OrganizationRepository;
 import com.fantastictrio.cw4sem.repository.UserRepository;
 import com.fantastictrio.cw4sem.security.JwtTokenProvider;
 import lombok.AllArgsConstructor;
@@ -23,6 +25,7 @@ import java.time.Instant;
 public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final OrganizationRepository organizationRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
 
@@ -30,8 +33,12 @@ public class AuthService {
         if (isUserRegistered(request.getUsername())) {
             throw new DuplicateException("User with this username already exists");
         }
+        Organization org = null;
+        if (request.getOrganizationId() != null) {
+            org = organizationRepository.getById(request.getOrganizationId());
+        }
         User user = new User(request, passwordEncoder.encode(request.getPassword()),
-                Role.USER, null, 0, Instant.now());
+                Role.USER, org, 0, Instant.now());
         user = userRepository.save(user);
 
         return generateAuthenticationToken(request.getUsername(), user.getRole(), user.getId());
