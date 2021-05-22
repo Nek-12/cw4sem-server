@@ -11,9 +11,9 @@ import javax.persistence.*;
 @Data
 @Builder
 @AllArgsConstructor
-@Entity(name = "strategic_decision")
+@Entity(name = "statistic_decision")
 @RequiredArgsConstructor
-public class StrategicDecision {
+public class StatisticDecision {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

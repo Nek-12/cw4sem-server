@@ -1,8 +1,8 @@
 package com.fantastictrio.cw4sem.service;
 
-import com.fantastictrio.cw4sem.dto.StrategicDecisionPayload;
-import com.fantastictrio.cw4sem.model.StrategicDecision;
-import com.fantastictrio.cw4sem.repository.StrategicDecisionRepository;
+import com.fantastictrio.cw4sem.dto.StatisticDecisionPayload;
+import com.fantastictrio.cw4sem.model.StatisticDecision;
+import com.fantastictrio.cw4sem.repository.StatisticDecisionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,16 +10,16 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class StrategicDecisionService {
-    private final StrategicDecisionRepository repository;
+public class StatisticDecisionService {
+    private final StatisticDecisionRepository repository;
     private final UserService userService;
 
-    public List<StrategicDecision> findAll() {
+    public List<StatisticDecision> findAll() {
         int id = userService.findSelf().getId();
         return repository.findByUserId(id);
     }
 
-    public StrategicDecision findById(int id) {
+    public StatisticDecision findById(int id) {
         return repository.findById(id).orElse(null);
     }
 
@@ -27,8 +27,8 @@ public class StrategicDecisionService {
         repository.deleteById(id);
     }
 
-    public StrategicDecision add(StrategicDecisionPayload payload) {
-        StrategicDecision decision = StrategicDecision.builder()
+    public StatisticDecision add(StatisticDecisionPayload payload) {
+        StatisticDecision decision = StatisticDecision.builder()
                 .data(payload.getData())
                 .name(payload.getName())
                 .user(userService.findSelf())

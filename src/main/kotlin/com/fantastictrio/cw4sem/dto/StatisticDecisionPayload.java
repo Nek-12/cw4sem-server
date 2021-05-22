@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.Size;
 
 @Data
-public class StrategicDecisionPayload {
+public class StatisticDecisionPayload {
     @Size(max = 32)
     private String name;
     @Size(max = 500)
