@@ -30,6 +30,12 @@ public class UserController {
         return userService.findSelf();
     }
 
+    @DeleteMapping("/self")
+    @PreAuthorize("isAuthenticated()")
+    public void deleteSelf() {
+        userService.deleteSelf();
+    }
+
     @PostMapping("/update/self")
     @PreAuthorize("isAuthenticated()")
     public User updateSelf(@Valid @RequestBody UserPayload userPayload) {

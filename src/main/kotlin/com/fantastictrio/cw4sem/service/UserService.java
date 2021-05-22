@@ -77,4 +77,8 @@ public class UserService {
         user.setRole(Role.ADMIN);
         return userRepository.save(user);
     }
+
+    public void deleteSelf() {
+        userRepository.delete(findSelf());
+    }
 }
