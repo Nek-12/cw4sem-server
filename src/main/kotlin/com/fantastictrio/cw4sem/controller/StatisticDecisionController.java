@@ -39,4 +39,10 @@ public class StatisticDecisionController {
     public StatisticDecision add(@Valid @RequestBody StatisticDecisionPayload payload) {
         return service.add(payload);
     }
+
+    @PostMapping("/update")
+    @PreAuthorize("isAuthenticated()")
+    public StatisticDecision update(@Valid @RequestBody StatisticDecision decision) {
+        return service.update(decision);
+    }
 }

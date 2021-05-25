@@ -35,4 +35,8 @@ public class StatisticDecisionService {
                 .build();
         return repository.save(decision);
     }
+
+    public StatisticDecision update(StatisticDecision decision) {
+        return repository.save(decision);
+    }
 }
