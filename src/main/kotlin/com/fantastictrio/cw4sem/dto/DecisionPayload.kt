@@ -14,6 +14,7 @@ data class DecisionPayload(
     @field:Size(max = 256)
     val description: String,
 
+    @field:Size(max = 100, min = 1)
     val strategyList: List<String>,
 
     @field:Min(1)
