@@ -4,6 +4,7 @@ import com.fantastictrio.cw4sem.dto.DecisionPayload
 import com.fantastictrio.cw4sem.exception.NotFoundException
 import com.fantastictrio.cw4sem.model.Decision
 import com.fantastictrio.cw4sem.repository.DecisionRepository
+import com.fantastictrio.cw4sem.repository.RecordRepository
 import com.fantastictrio.cw4sem.repository.UserRepository
 import org.springframework.stereotype.Service
 
@@ -11,7 +12,8 @@ import org.springframework.stereotype.Service
 @Service
 class DecisionService(
     private val repo: DecisionRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val recordRepository: RecordRepository
 ) {
     val decisions: List<Decision>
         get() = repo.findAll()
@@ -41,7 +43,10 @@ class DecisionService(
             decision.pessimismCoefficient == payload.pessimismCoefficient
         ) {
             decision.records
-        } else emptyList()
+        } else {
+            recordRepository.deleteByDecisionId(id)
+            emptyList()
+        }
 
         val withoutRecords = Decision(payload, decision.user, records, id)
         return repo.save(withoutRecords)
