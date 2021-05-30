@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
+import javax.validation.constraints.Size
 
 @Validated
 @RestController
@@ -55,7 +56,11 @@ class DecisionController(
 
     @PostMapping("/make/{id}")
     @PreAuthorize("isAuthenticated()")
-    fun make(@PathVariable("id") decisionId: Int, @Valid @RequestBody matrix: List<List<Double>>): DecisionRecord {
+    fun make(
+        @PathVariable("id") decisionId: Int,
+        @Valid @RequestBody @Size(max = 100, min = 1) matrix: List<List<Double>>
+    ):
+            DecisionRecord {
         val decision = decisionService.findById(decisionId)
         val result = DecisionMaker.make(decision, matrix)
         return recordService.save(result)

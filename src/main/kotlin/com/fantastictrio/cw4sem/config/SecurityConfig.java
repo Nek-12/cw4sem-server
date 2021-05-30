@@ -28,14 +28,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .csrf().disable()
-            .sessionManagement()
-            .sessionCreationPolicy(STATELESS)
-            .and()
-            .authorizeRequests()
-            .antMatchers("/**").permitAll()
-            .and()
-            .apply(jwtConfigurer);
+                .csrf().disable()
+                .sessionManagement()
+                .sessionCreationPolicy(STATELESS)
+                .and()
+                .authorizeRequests()
+                .antMatchers("/**").permitAll()
+                .and()
+                .apply(jwtConfigurer);
     }
 
     @Bean

@@ -5,21 +5,24 @@ import com.fantastictrio.cw4sem.model.Decision;
 import com.fantastictrio.cw4sem.model.DecisionRecord;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class DecisionMaker {
 
     public static DecisionRecord make(Decision decision, List<List<Double>> matrix) {
 
-        var sizes = matrix.stream().mapToInt(List::size).toArray(); // get data source
+        int[] sizes = matrix.stream().mapToInt(List::size).toArray(); // get data source
         if (sizes.length == 0 || //non-empty
                 Arrays.stream(sizes).anyMatch((int size) -> size == 0) || // all columns non-empty
                 Arrays.stream(sizes).distinct().count() > 1 || //all columns have the same size
                 decision.getNatureStatesCount() != matrix.size() || //column numbers match
                 sizes[0] != decision.getStrategyList().size() || //rows match
-                Arrays.stream(sizes).allMatch((int number) -> number < 0)
-                || matrix.stream().anyMatch((List<Double> column) -> column.stream().anyMatch(Objects::isNull))) //no nulls
+                matrix.stream().anyMatch((List<Double> column) -> column.stream().anyMatch((Double value) ->
+                        value == null || value < 0))) //no nulls and negatives
             throw new IllegalDecisionException("matrix is empty or invalid");
 
         return new DecisionRecord(waldCriterionMaker(matrix),

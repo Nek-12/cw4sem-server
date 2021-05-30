@@ -40,5 +40,5 @@ data class Organization(
     }
 
     val employeeCount: Int
-    get() = users.size
+        get() = users.size
 }

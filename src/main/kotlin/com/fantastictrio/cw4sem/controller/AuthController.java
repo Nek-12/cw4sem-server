@@ -22,7 +22,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public AuthenticationResponse signup( @Valid @RequestBody UserPayload userPayload) throws DuplicateException {
+    public AuthenticationResponse signup(@Valid @RequestBody UserPayload userPayload) throws DuplicateException {
         return authService.signup(userPayload);
     }
 

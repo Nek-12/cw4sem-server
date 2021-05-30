@@ -56,6 +56,7 @@ data class Decision(
                 payload.pessimismCoefficient,
                 id,
             )
+
     fun toPayload(): DecisionPayload {
         return DecisionPayload(this)
     }

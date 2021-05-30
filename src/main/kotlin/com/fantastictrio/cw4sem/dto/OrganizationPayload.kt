@@ -9,5 +9,5 @@ data class OrganizationPayload(
     @field:Pattern(regexp = "[a-zA-Zа-яА-Я\\s]{2,30}")
     val type: String,
 ) {
-    constructor(org: Organization): this(org.name,org.type)
+    constructor(org: Organization) : this(org.name, org.type)
 }
