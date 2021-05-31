@@ -27,7 +27,6 @@ data class Decision(
     @JoinColumn(name = "user_id")
     val user: User,
 
-
     @OneToMany(mappedBy = "decision", cascade = [CascadeType.ALL])
     val records: List<DecisionRecord> = emptyList(),
 

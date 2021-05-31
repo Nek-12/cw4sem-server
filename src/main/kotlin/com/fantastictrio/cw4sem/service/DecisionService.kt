@@ -7,9 +7,11 @@ import com.fantastictrio.cw4sem.repository.DecisionRepository
 import com.fantastictrio.cw4sem.repository.RecordRepository
 import com.fantastictrio.cw4sem.repository.UserRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 
 @Service
+@Transactional
 class DecisionService(
     private val repo: DecisionRepository,
     private val userRepository: UserRepository,
@@ -44,7 +46,7 @@ class DecisionService(
         ) {
             decision.records
         } else {
-            recordRepository.deleteByDecisionId(id)
+            recordRepository.deleteAllByDecisionId(id)
             emptyList()
         }
 

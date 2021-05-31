@@ -20,7 +20,6 @@ data class DecisionPayload(
     @field:Min(1)
     val natureStatesCount: Int,
 
-
     /**
      * User-defined value needed for the algorithms
      */
